@@ -11,11 +11,13 @@ dotenv.config();
 
 const app: Application = express();
 
+logger.info(process.env.DB_CLIENT);
+
 app.use(express.json());
 
 app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/api', (req: Request, res: Response) => {
   res.send('API is running....');
 });
 
@@ -24,7 +26,7 @@ app.use(appRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.clear();
