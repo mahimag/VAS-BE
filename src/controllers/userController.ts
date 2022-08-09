@@ -1,16 +1,20 @@
-import { StatusCodes } from 'http-status-codes';
-import { NextFunction, Request, Response } from 'express';
+// import { StatusCodes } from "http-status-codes";
+import { NextFunction, Request, Response } from "express";
 
-import logger from '../misc/logger';
-import CustomError from '../misc/CustomError';
-import * as userService from '../services/userService';
+// import logger from "../misc/logger";
+// import CustomError from "../misc/CustomError";
+import * as userService from "../services/userService";
 
 /**
  * Get all users.
  * @param {Request} req
  * @param {Response} res
  */
-export const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+export const getAllUsers = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   userService
     .getAllUsers()
     .then((data) => res.json(data))
@@ -37,33 +41,36 @@ export const getUser = (req: Request, res: Response, next: NextFunction) => {
  * @param {Response} res
  */
 export const createUser = (req: Request, res: Response, next: NextFunction) => {
-  const { name, email } = req.body;
+  const { first_name, last_name, birth_date, ethnicity, gender, email, password } = req.body;
 
   userService
-    .createUser({ name, email })
+    .createUser({ first_name, last_name, birth_date, ethnicity, gender, email, password })
     .then((data) => res.json(data))
     .catch((err) => next(err));
 };
 
-/**
- * Update an existing user.
- * @param {Request} req
- * @param {Response} res
- */
-export const updateUser = (req: Request, res: Response, next: NextFunction) => {
-  const { userId } = req.params;
-  const { name, email } = req.body;
+// /**
+//  * Update an existing user.
+//  * @param {Request} req
+//  * @param {Response} res
+//  */
+// export const updateUser = (req: Request, res: Response, next: NextFunction) => {
+//   const { userId } = req.params;
+//   const { first_name, last_name, birth_date, ethnicity, gender, email } = req.body;
 
-  if (!userId || !name || !email) {
-    logger.error('Missing parameters userId or name or email');
-    throw new CustomError('UserId, Name and email are required', StatusCodes.BAD_REQUEST);
-  }
+//   if (!userId || !first_name || !last_name || !birth_date || !ethnicity || !gender || !email) {
+//     logger.error("Missing parameters.");
+//     throw new CustomError(
+//       "UserId, FirstName, LastName, DOB, Ethnicity, Gender, and Email are required",
+//       StatusCodes.BAD_REQUEST
+//     );
+//   }
 
-  userService
-    .updateUser({ name, email, id: +userId })
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
-};
+//   userService
+//     .updateUser({ first_name, last_name, birth_date, ethnicity, gender, email })
+//     .then((data) => res.json(data))
+//     .catch((err) => next(err));
+// };
 
 /**
  * Delete an existing user.
